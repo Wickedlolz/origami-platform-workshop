@@ -5,11 +5,14 @@ import Link from '../shared/Link/Link';
 function Footer() {
     return <nav className="Footer">
         <ul>
-            <Link url="#">
+            <Link to="#">
                 <img id="logo" src="origami.svg" alt="my-app-logo" />
             </Link>
-            <Link url="#">Footer link 1</Link>
-            <Link url="#">Footer link 2</Link>
+            <Link to="/">Posts</Link>
+            <Link to="/create-post">New Post</Link>
+            <Link to="/profile">Profile</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
         </ul>
     </nav>
 }

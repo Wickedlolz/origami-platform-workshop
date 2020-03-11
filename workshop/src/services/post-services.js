@@ -1,6 +1,6 @@
 const postService = {
-    load: function (id) {
-        return fetch(`https://jsonplaceholder.typicode.com/posts${id ? `${id}` : ''}`).then(res => res.json());
+    load: function (id, limit) {
+        return fetch(`http://localhost:5000/api/origami${id ? `/${id}` : ''}${limit ? `?limig=${limit}` : ''}`).then(res => res.json());
     }
 };
 
