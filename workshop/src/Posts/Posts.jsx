@@ -23,7 +23,7 @@ class Posts extends React.Component {
     render() {
         const { posts } = this.state;
         return Array.isArray(posts) ? <div className="Posts">
-            { posts.map((post) => <Post key={post.id} imageUrl="/logo192.png" imageAlt="alt" author={post.userId}>{post.body}</Post>) }
+            { posts.map((post) => <Post key={post.id} imageUrl="/origami.svg" imageAlt="alt" author={post.userId}>{post.body}</Post>) }
         </div> : <div>Loading....</div>
     }
 }
