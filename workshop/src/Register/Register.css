@@ -27,3 +27,7 @@ form button {
     width: auto;
     padding: 2%;
 }
+
+#errorMessages {
+    color: red;
+}

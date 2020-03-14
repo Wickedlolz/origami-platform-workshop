@@ -4,7 +4,7 @@ import './Profile.css';
 
 export default function Profile() {
     return <div className="Profile">
-        <img src="" alt="profile" />
+        <img src="default-profile-picture1.jpg" alt="profile" />
         <div className="personal-info">
             <p>
                 <span>Email:</span>

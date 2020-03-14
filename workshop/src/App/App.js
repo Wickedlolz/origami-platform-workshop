@@ -13,34 +13,71 @@ import Login from '../Login/Login';
 import NotFound from '../NotFound/NotFound';
 import Register from '../Register/Register';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Logout from '../Logout/Logout';
+import userService from '../services/user-service';
 
-function render(title, Cmp) {
-  return function () {
-    return <Main title={title}><Cmp /></Main>
+function render(title, Cmp, otherProps) {
+  return function (props) {
+    return <Main title={title}><Cmp {...props} {...otherProps} /></Main>
   }
 }
 
-function App() {
-  return (
-    <BrowserRouter>
-    <div className="App">
-      <Loader local={true} isLoading={false} />
-      <Navigation />
-      <div className = "Container">
-        <Aside />        
-          <Switch>
-            <Route path="/" exact render={render('Posts', Posts)} />
-            <Route path="/create-post" exact render={render('Create Post', CreatePost)} />
-            <Route path="/profile" exact render={render('Profile', Profile)} />
-            <Route path="/login" exact render={render('Login', Login)} />
-            <Route path="/register" exact render={render('Register', Register)} />
-            <Route path="*" exact render={render('Not Found', NotFound)} />
-          </Switch>
+function parseCookies() {
+  return document.cookie.split('; ').reduce((acc, cookie) => {
+    const [cookieName, cookieValue] = cookie.split('=');
+    acc[cookieName] = cookieValue;
+    return acc;
+  }, {})
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    const cookies = parseCookies();
+    const isLogged = !!cookies['x-auth-token'];
+    this.state = { isLogged };
+  }
+
+  logout = (history) => {
+      userService.logout().then(() => {            
+          this.setState({ isLogged: false});
+          history.push('/');
+          return null;
+      });
+  }
+
+  login = (history, data) => {
+    userService.login(data).then(() => {            
+      this.setState({ isLogged: true});
+      history.push('/');
+      return null;
+    });
+  }
+
+  render() {
+    const { isLogged } = this.state;
+    return (
+      <BrowserRouter>
+      <div className="App">
+        <Loader local={true} isLoading={false} />
+        <Navigation isLogged={isLogged} />
+        <div className = "Container">
+          <Aside isLogged={isLogged} />        
+            <Switch>
+              <Route path="/" exact render={render('Posts', Posts, { isLogged })} />
+              <Route path="/create-post" exact render={render('Create Post', CreatePost, { isLogged })} />
+              <Route path="/profile" exact render={render('Profile', Profile, { isLogged })} />
+              <Route path="/login" exact render={render('Login', Login, {isLogged, login: this.login })} />
+              <Route path="/register" exact render={render('Register', Register, { isLogged })} />
+              <Route path="/logout" render={render('Logout', Logout, { isLogged, logout: this.logout })} />
+              <Route path="*" exact render={render('Not Found', NotFound)} />
+            </Switch>
+        </div>
+        <Footer isLogged={isLogged} />
       </div>
-      <Footer />
-    </div>
-    </BrowserRouter>
-  );
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;

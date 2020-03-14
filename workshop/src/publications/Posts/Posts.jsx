@@ -14,6 +14,7 @@ class Posts extends React.Component {
     state = {
         posts: null
     };
+    textInput = null;
 
     componentDidMount() {
         postService.load(null, this.props.limit).then(posts => {
@@ -23,11 +24,19 @@ class Posts extends React.Component {
 
     render() {
         const { posts } = this.state;
-        return Array.isArray(posts) ? <div className="Posts">
-            { posts.map((post) => <Post key={post._id} imageUrl="/origami.svg" imageAlt="alt" author={post.author}>{post.description}</Post>) }
-        </div> : <div>Loading....</div>
+    
+        return <div>
+          {posts ?
+            <div className="Posts">
+              {posts.map((post) =>
+                <Post key={post._id} imageUrl="./origami.svg" imageAlt="alt" author={post.author}>{post.description}</Post>)}
+            </div> : <div>Loading...</div>
+          }
+        </div>
+      }
     }
-}
+
+
 
 Posts.propTypes = {
     limit: PropTypes.number
