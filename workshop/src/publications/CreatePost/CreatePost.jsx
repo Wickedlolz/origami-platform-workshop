@@ -1,13 +1,25 @@
 import React from 'react';
 import Posts from '../Posts/Posts';
+import postService from '../../services/post-services';
 import './CreatePost.css'
 
-export default function CreatePost () {
-    return <div className="CreatePost">
-        <form>
-            <textarea></textarea>
-            <button>Post</button>
-        </form>
-        <Posts limit={3} />
-    </div>;
+const CreatePost = ({ history }) => {
+    const textareaRef = React.useRef();
+
+    const createPost = React.useCallback(() => {
+    const value = textareaRef.current.value;
+    postService.create({ description: value }).then(() => {
+      history.push('/');
+    });
+  }, [textareaRef, history]);
+
+  return <div className="CreatePost">
+    <form>
+      <textarea ref={textareaRef}></textarea>
+      <button type="button" onClick={createPost}>Create Post</button>
+    </form>
+    <Posts limit={3} />
+  </div>;
 }
+
+export default CreatePost;

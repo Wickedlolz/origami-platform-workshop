@@ -47,7 +47,7 @@ class App extends React.Component {
   }
 
   login = (history, data) => {
-    userService.login(data).then(() => {            
+    return userService.login(data).then(() => {            
       this.setState({ isLogged: true});
       history.push('/');
       return null;
@@ -65,8 +65,8 @@ class App extends React.Component {
           <Aside isLogged={isLogged} />        
             <Switch>
               <Route path="/" exact render={render('Posts', Posts, { isLogged })} />
-              <Route path="/create-post" exact render={render('Create Post', CreatePost, { isLogged })} />
-              <Route path="/profile" exact render={render('Profile', Profile, { isLogged })} />
+              {isLogged && <Route path="/create-post" exact render={render('Create Post', CreatePost, { isLogged })} />}
+              {isLogged && <Route path="/profile" exact render={render('Profile', Profile, { isLogged })} />}
               <Route path="/login" exact render={render('Login', Login, {isLogged, login: this.login })} />
               <Route path="/register" exact render={render('Register', Register, { isLogged })} />
               <Route path="/logout" render={render('Logout', Logout, { isLogged, logout: this.logout })} />

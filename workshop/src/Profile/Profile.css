@@ -6,7 +6,7 @@
 }
 
 .Profile img {
-    max-width: 265px;
+    max-width: 200px;
     margin: 0 auto;
     display: block;
 }
@@ -16,7 +16,7 @@
     padding: 10px;
     margin: 0 auto;
     color: #234465;
-    width: 50%;
+    width: 40%;
     text-align: center;
 }
 
